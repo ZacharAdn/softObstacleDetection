@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 face_cascade = cv2.CascadeClassifier('cascade.xml')
-vc = cv2.VideoCapture('vid/cut_output2.mp4')
+vc = cv2.VideoCapture('input/vid/cut_output2.mp4')
 
 
 def find_marker(image,i):
