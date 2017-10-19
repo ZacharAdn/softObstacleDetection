@@ -19,6 +19,7 @@ def find_marker(image,i):
     # we'll assume that this is our piece of paper in the image
     (_,cnts, _) = cv2.findContours(edged.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
     c = max(cnts, key=cv2.contourArea)
+    print c.shape
 
     # compute the bounding box of the of the paper region and return it
     return cv2.minAreaRect(c)
@@ -34,7 +35,7 @@ i =0
 KNOWN_WIDTH = 20.0
 image = cv2.imread("Result2.jpg")
 marker = find_marker(image,i)
-focalLength = (marker[1][0] * KNOWN_DISTANCE) / KNOWN_WIDTH
+focalLength = (200 * KNOWN_DISTANCE) / KNOWN_WIDTH
 
 
 if vc.isOpened():
@@ -62,7 +63,7 @@ while rval:
 
         inches = distance_to_camera(KNOWN_WIDTH, focalLength, marker[1][0])
         cm = inches * cm2inch
-        print cm
+        # print cm
 
         # draw a bounding box around the image and display it
         # box = np.int0(cv2.boxPoints((x,y,w,h)))
