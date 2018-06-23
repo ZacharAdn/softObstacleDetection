@@ -37,8 +37,8 @@ def distance_to_camera(knownWidth, focalLength, perWidth):
 
 
 cm2inch = 2.54
-cm_dis = 600
-KNOWN_DISTANCE = cm_dis / cm2inch
+cmDis = 600
+KNOWN_DISTANCE = cmDis / cm2inch
 i = 0
 KNOWN_WIDTH = 20.0
 exmpImage = cv2.imread("Result2.jpg")
