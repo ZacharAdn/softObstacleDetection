@@ -19,7 +19,7 @@ def find_marker(image,i):
     # we'll assume that this is our piece of paper in the image
     (_,cnts, _) = cv2.findContours(edged.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
     c = max(cnts, key=cv2.contourArea)
-    print c.shape
+    print(c.shape)
 
     # compute the bounding box of the of the paper region and return it
     return cv2.minAreaRect(c)
