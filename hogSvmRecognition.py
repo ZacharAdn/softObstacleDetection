@@ -4,8 +4,8 @@ import cv2
 import numpy as np
 
 
+# Generate Hog descriptor to use on the data
 def hogDescriptorGen():
-    # dont tuch
     nbins = 9
     derivAperture = 1
     winSigma = -1.
@@ -14,7 +14,7 @@ def hogDescriptorGen():
     gammaCorrection = 1
     nlevels = 64
 
-    # can play with
+    # Params can play with
     winSize = (200, 600)  # im size
     blockSize = (100, 300)  # imszie/2
     blockStride = (50, 150)  # imszie/4
@@ -26,22 +26,18 @@ def hogDescriptorGen():
 
     return hog
 
-
+# Compute the data with hog descriptor, split to train and test sets
 def generateData(inputData, hog, split):
     data = []
-    dataLabels = []
-    trainData = []
-    trainLabels = []
-    testData = []
-    testLabels = []
-
-    # data = np.array
     yi = 0
 
+    # Iterate over all the labels
     for class_ in os.listdir(inputData):
         classPath = os.path.join(inputData, class_)
         print(class_)
         if os.path.isdir(classPath):
+
+            # Iterate over all the samples in the label
             for sample in os.listdir(classPath):
                 # print sample
                 imPath = os.path.join(classPath, sample)
@@ -51,41 +47,19 @@ def generateData(inputData, hog, split):
                 xi = [float(x[0]) for x in descriptor]
                 xi.insert(0, float(yi))
 
-                # if random.random() < 0.2:
-                #     testData.app
-                # `
-                # end(xi)
-                #     testLabels.append(yi)
-                # else:
-                #     trainData.append(xi)
-                #     trainLabels.append(yi)
-
-                # sample = [float(yi),xi]
-
-                # print sample
                 data.append(xi)
         yi += 1
 
     print(len(data))
-    # for x in data:
-    # if(x is not float and x is not []):
-    #     print x
 
+    # Split the data to train and test sets
     nd_a = np.array([[x for x in y] for y in data])
-
     train_n = int(split * len(data))
-    # NPdata = np.array(data,np.float32)
     trainData, testData = np.split(nd_a, [train_n])
-
     print("test data size:", len(testData), ", train data size:", len(trainData))
     print(len(data))
 
     return trainData, testData
-
-
-# def save2Csv(data):
-#
-# def loadFromCsv(path):
 
 
 DIR = './input/'
@@ -98,8 +72,6 @@ trainLabels = [x[0] for x in trainData]
 trainData = [x[1:] for x in trainData]
 testLabels = [x[0] for x in testData]
 testData = [x[1:] for x in testData]
-
-# print trainData
 
 # Set up SVM for OpenCV 3
 svm = cv2.ml.SVM_create()
@@ -128,7 +100,6 @@ print("SVM test")
 
 # Test on a held out test set
 testResponse = svm.predict(np.float32(testData))[1].ravel()
-
 print(len(testResponse))
 
 error = 0
@@ -138,4 +109,5 @@ for i in range(len(testResponse)):
         error += 1
 
 print(error)
+# 0.97 %
 print("acc:", float(len(testResponse) - error) / len(testResponse), "%")
