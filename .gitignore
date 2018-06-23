@@ -24,7 +24,7 @@
 hs_err_pid*
 
 #.gitignore
-.idea/*
+.idea
 machineLearningEx3.iml
 out/
 # IntelliJ
